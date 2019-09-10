@@ -118,4 +118,26 @@ class ExplodingGameTest {
     assertThat(explodingGame.cards, not(equalTo(cards)))
   }
 
+  @Test
+  def `if draw defuse card, increment defuse`(): Unit = {
+    val inputStream = new ByteArrayInputStream("draw\n".getBytes())
+    val outputStream = new ByteArrayOutputStream()
+
+    val player = Player("Player 1")
+    val explodingGame = new ExplodingGame(
+      player,
+      inputStream,
+      new PrintStream(outputStream),
+      mutable.Queue(new DefuseCard())
+    )
+
+    explodingGame.start()
+
+    val outputs = new String(outputStream.toByteArray)
+
+    assertThat(outputs, containsString("You drew a defuse card, no you have 2 defuse cards. Draw again!\r\n"))
+    assertThat(player.defuseCards, equalTo(2))
+  }
+
+
 }

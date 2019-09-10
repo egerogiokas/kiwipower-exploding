@@ -48,17 +48,21 @@ class ExplodingGame(
       outputStream.println("You need restart the game!")
     } else {
       val cardDrawn = cards.dequeue()
-      if (cardDrawn.isInstanceOf[ExplodingCard]) {
-        if (player.defuseCards > 0) {
-          outputStream.println("You drew the exploding card, but defused it. Draw again!")
-          player.defuseCards -= 1
-          shuffleCards()
-        } else {
-          outputStream.println(s"You drew the exploding card! Game Over! Play again? (restart/exit)")
-        }
-        gameover = true
-      } else {
-        outputStream.println(s"You haven't exploded yet, keep going! Draw another card: ${cards.size} cards left")
+      cardDrawn match {
+        case _: ExplodingCard =>
+          if (player.defuseCards > 0) {
+            outputStream.println("You drew the exploding card, but defused it. Draw again!")
+            player.defuseCards -= 1
+            shuffleCards()
+          } else {
+            outputStream.println(s"You drew the exploding card! Game Over! Play again? (restart/exit)")
+          }
+          gameover = true
+        case _: DefuseCard =>
+          player.defuseCards += 1
+          outputStream.println(s"You drew a defuse card, no you have ${player.defuseCards} defuse cards. Draw again!")
+        case _ =>
+          outputStream.println(s"You haven't exploded yet, keep going! Draw another card: ${cards.size} cards left")
       }
     }
   }
