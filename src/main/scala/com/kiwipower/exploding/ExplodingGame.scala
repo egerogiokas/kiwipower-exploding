@@ -6,13 +6,12 @@ import java.util.Scanner
 import scala.collection.mutable
 
 
-class ExplodingGame(player: Player) {
+class ExplodingGame(player: Player, var cards: mutable.Queue[Card] = mutable.Queue()) {
 
-  var cards: mutable.Queue[Card] = shuffleCards()
   var gameover = false
 
-
   def start(inputStream: InputStream = System.`in`, outputStream: PrintStream = System.out) {
+    cards = initialiseCards()
     outputStream.println(s"${player.name} is playing exploding")
     outputStream.println("to draw a card, enter \"draw\"")
     outputStream.println(s"${player.name} please draw a card:")
@@ -34,7 +33,7 @@ class ExplodingGame(player: Player) {
             }
           }
         case "restart" =>
-          cards = shuffleCards()
+          cards = initialiseCards()
           outputStream.println(s"Cards have been shuffled, please draw a card ${player.name}")
         case "exit" =>
           outputStream.println("Quitting game!")
@@ -47,7 +46,7 @@ class ExplodingGame(player: Player) {
 
   }
 
-  private def shuffleCards(): mutable.Queue[Card] = {
+  def initialiseCards(): mutable.Queue[Card] = {
     val blankCards = (0 to 48).map(_ => new BlankCard().asInstanceOf[Card])
     val mutableBlankCards: mutable.Queue[Card] = mutable.Queue(blankCards: _*)
 
@@ -61,7 +60,6 @@ class ExplodingGame(player: Player) {
     val secondDefuseCardLocation = getRandomLocation(List(explodingCardLocation, firstDefuseCardLocation))
     mutableBlankCards.update(secondDefuseCardLocation, new DefuseCard())
     gameover = false
-    player.defuseCards += 1
     mutableBlankCards
   }
 

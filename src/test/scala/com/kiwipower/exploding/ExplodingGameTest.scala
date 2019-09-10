@@ -9,11 +9,12 @@ import org.junit.Test
 
 class ExplodingGameTest {
 
-
   @Test
-  def `when initialising, creates cards with 1 exploding card`() {
+  def `when starting the game, creates cards with 1 exploding card`() {
     val player = Player("Player 1")
     val explodingGame = new ExplodingGame(player)
+
+    explodingGame.start()
 
     assertThat(player.defuseCards, equalTo(1))
     assertThat(explodingGame.cards.size, equalTo(49))
@@ -36,7 +37,7 @@ class ExplodingGameTest {
 
     val outputs = new String(outputStream.toByteArray)
 
-    assertThat(explodingGame.cards.size, equalTo(46))
+    assertThat(explodingGame.cards.size, equalTo(48))
     assertThat(outputs,
       containsString("Player 1 is playing exploding\r\n" +
         "to draw a card, enter \"draw\"\r\n" +
@@ -55,7 +56,7 @@ class ExplodingGameTest {
 
     val outputs = new String(outputStream.toByteArray)
 
-    assertThat(explodingGame.cards.size, equalTo(46))
+    assertThat(explodingGame.cards.size, equalTo(48))
     assertThat(outputs, containsString("Cards have been shuffled, please draw a card Player 1\r\n"))
     assertThat(outputs, containsString("Quitting game!\r\n"))
   }
