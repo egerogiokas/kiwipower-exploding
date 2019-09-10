@@ -10,32 +10,36 @@ class ExplodingGame(
     val cards: MutableList<Card>
 
     init {
-        val blankCards: MutableList<Card> = (0..46).map { BlankCard() }.toMutableList()
-        val explodingCard = ExplodingCard()
-        val randomNumber = (Math.random() * 46).roundToInt()
-
-        blankCards[randomNumber] = explodingCard
-        cards = blankCards
+        cards = shuffleCards()
     }
 
     fun start(inputStream: InputStream = System.`in`) {
-        println("Player: ${player.name} is playing exploding")
+        println("${player.name} is playing exploding")
         println("to draw a card, enter \"draw\"")
+        println("${player.name} please draw a card:")
 
         val scanner = Scanner(inputStream)
 
         while (scanner.hasNext()) {
-            println("Player: ${player.name} please draw a card")
             when (scanner.next()) {
                 "draw" -> {
                     val cardDrawn = cards.removeAt(0)
                     if (cardDrawn is ExplodingCard) {
-                        println("You drew the exploding card! Game Over! Play again? (Y/N)")
+                        println("You drew the exploding card! Game Over! Play again? (restart/exit)")
                     }
                 }
             }
         }
 
+    }
+
+    private fun shuffleCards(): MutableList<Card> {
+        val blankCards: MutableList<Card> = (0..46).map { BlankCard() }.toMutableList()
+        val explodingCard = ExplodingCard()
+        val randomNumber = (Math.random() * 46).roundToInt()
+
+        blankCards[randomNumber] = explodingCard
+        return blankCards
     }
 
 }
