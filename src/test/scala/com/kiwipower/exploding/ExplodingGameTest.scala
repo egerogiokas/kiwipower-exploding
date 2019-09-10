@@ -12,11 +12,17 @@ class ExplodingGameTest {
 
   @Test
   def `when initialising, creates cards with 1 exploding card`() {
-    val explodingGame = new ExplodingGame(new Player("Player 1"))
+    val player = Player("Player 1")
+    val explodingGame = new ExplodingGame(player)
 
-    assertThat(explodingGame.cards.size, equalTo(47))
+    assertThat(player.defuseCards, equalTo(1))
+    assertThat(explodingGame.cards.size, equalTo(49))
+
     val explodingCards = explodingGame.cards.filter(card => card.isInstanceOf[ExplodingCard])
     assertThat(explodingCards.size, equalTo(1))
+
+    val defuseCards = explodingGame.cards.filter(card => card.isInstanceOf[DefuseCard])
+    assertThat(defuseCards.size, equalTo(2))
   }
 
   @Test

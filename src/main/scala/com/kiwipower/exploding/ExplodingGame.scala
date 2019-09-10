@@ -48,14 +48,30 @@ class ExplodingGame(player: Player) {
   }
 
   private def shuffleCards(): mutable.Queue[Card] = {
-    val blankCards = (0 to 46).map(_ => new BlankCard().asInstanceOf[Card])
+    val blankCards = (0 to 48).map(_ => new BlankCard().asInstanceOf[Card])
     val mutableBlankCards: mutable.Queue[Card] = mutable.Queue(blankCards: _*)
-    val randomNumber = Math.floor(Math.random() * 46).toInt
-    val explodingCard = new ExplodingCard()
 
-    mutableBlankCards.update(randomNumber, explodingCard)
+    val explodingCardLocation = Math.floor(Math.random() * 46).toInt
+
+    mutableBlankCards.update(explodingCardLocation, new ExplodingCard())
+
+    val firstDefuseCardLocation: Int = getRandomLocation(List(explodingCardLocation))
+    mutableBlankCards.update(firstDefuseCardLocation, new DefuseCard())
+
+    val secondDefuseCardLocation = getRandomLocation(List(explodingCardLocation, firstDefuseCardLocation))
+    mutableBlankCards.update(secondDefuseCardLocation, new DefuseCard())
     gameover = false
+    player.defuseCards += 1
     mutableBlankCards
   }
+
+  def getRandomLocation(location: List[Int]): Int = {
+    var newRandomLocation: Int = Math.floor(Math.random() * 46).toInt
+    if (location.contains((i: Int) => i.equals(newRandomLocation))) {
+      newRandomLocation = getRandomLocation(location)
+    }
+    newRandomLocation
+  }
+
 
 }
