@@ -1,5 +1,4 @@
 package com.kiwipower.exploding
 
-class BlankCard : Card {
-
+case class Player(name: String) {
 }
