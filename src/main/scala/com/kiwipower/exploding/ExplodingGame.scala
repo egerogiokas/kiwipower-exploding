@@ -3,12 +3,12 @@ package com.kiwipower.exploding
 import java.io.{InputStream, PrintStream}
 import java.util.Scanner
 
-import scala.collection.{immutable, mutable}
+import scala.collection.mutable
 
 
 class ExplodingGame(player: Player) {
 
-  val cards: mutable.Queue[Card] = shuffleCards()
+  var cards: mutable.Queue[Card] = shuffleCards()
 
 
   def start(inputStream: InputStream = System.`in`, outputStream: PrintStream = System.out) {
@@ -27,6 +27,12 @@ class ExplodingGame(player: Player) {
           } else {
             outputStream.println(s"You haven't exploded yet, keep going! Draw another card: ${cards.size} cards left")
           }
+        case "restart" =>
+          cards = shuffleCards()
+          outputStream.println(s"Cards have been shuffled, please draw a card ${player.name}")
+        case "exit" =>
+          outputStream.println("Quitting game!")
+          return
         case unknownCommand =>
           outputStream.println(s"Unknown command $unknownCommand")
           outputStream.println("Please try a valid action.")
