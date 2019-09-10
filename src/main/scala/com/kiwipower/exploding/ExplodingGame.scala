@@ -28,7 +28,7 @@ class ExplodingGame(
 
     while (scanner.hasNext()) {
       scanner.next() match {
-        case "draw" => drawACard
+        case "draw" => drawACard()
         case "restart" =>
           initialiseCards()
           outputStream.println(s"Cards have been shuffled, please draw a card ${player.name}")
@@ -40,7 +40,6 @@ class ExplodingGame(
           outputStream.println("Please try a valid action.")
       }
     }
-
   }
 
   private def drawACard(): Unit = {
@@ -95,6 +94,5 @@ class ExplodingGame(
     }
     newRandomLocation
   }
-
 
 }
