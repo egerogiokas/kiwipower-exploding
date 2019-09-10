@@ -12,9 +12,9 @@ class ExplodingGame(player: Player) {
 
 
   def start(inputStream: InputStream = System.`in`, outputStream: PrintStream = System.out) {
-    outputStream.println("${player.name} is playing exploding")
+    outputStream.println(s"${player.name} is playing exploding")
     outputStream.println("to draw a card, enter \"draw\"")
-    outputStream.println("${player.name} please draw a card:")
+    outputStream.println(s"${player.name} please draw a card:")
 
     val scanner = new Scanner(inputStream)
 
@@ -23,9 +23,9 @@ class ExplodingGame(player: Player) {
         case "draw" =>
           val cardDrawn = cards.dequeue()
           if (cardDrawn.isInstanceOf[ExplodingCard]) {
-            outputStream.println("You drew the exploding card! Game Over! Play again? (restart/exit)")
+            outputStream.println(s"You drew the exploding card! Game Over! Play again? (restart/exit)")
           } else {
-            outputStream.println("You haven't exploded yet, keep going! Draw another card: ${cards.size}")
+            outputStream.println(s"You haven't exploded yet, keep going! Draw another card: ${cards.size} cards left")
           }
         case unknownCommand =>
           outputStream.println(s"Unknown command $unknownCommand")
