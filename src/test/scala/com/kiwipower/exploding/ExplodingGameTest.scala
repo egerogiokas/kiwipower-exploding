@@ -128,7 +128,10 @@ class ExplodingGameTest {
       player,
       inputStream,
       new PrintStream(outputStream),
-      mutable.Queue(new DefuseCard())
+      mutable.Queue(
+        new DefuseCard(),
+        new BlankCard()
+      )
     )
 
     explodingGame.start()
@@ -137,6 +140,7 @@ class ExplodingGameTest {
 
     assertThat(outputs, containsString("You drew a defuse card, no you have 2 defuse cards. Draw again!\r\n"))
     assertThat(player.defuseCards, equalTo(2))
+    assertThat(explodingGame.cards.size, equalTo(1))
   }
 
 
