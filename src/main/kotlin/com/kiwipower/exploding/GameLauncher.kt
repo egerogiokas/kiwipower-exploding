@@ -1,7 +1,8 @@
 package com.kiwipower.exploding
 
 
-fun main(args: Array<String>) {
+fun main() {
 
+    ExplodingGame(Player()).start()
 
 }
