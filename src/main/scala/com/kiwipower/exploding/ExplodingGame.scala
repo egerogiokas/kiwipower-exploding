@@ -9,6 +9,7 @@ import scala.collection.mutable
 class ExplodingGame(player: Player) {
 
   var cards: mutable.Queue[Card] = shuffleCards()
+  var gameover = false
 
 
   def start(inputStream: InputStream = System.`in`, outputStream: PrintStream = System.out) {
@@ -21,11 +22,16 @@ class ExplodingGame(player: Player) {
     while (scanner.hasNext()) {
       scanner.next() match {
         case "draw" =>
-          val cardDrawn = cards.dequeue()
-          if (cardDrawn.isInstanceOf[ExplodingCard]) {
-            outputStream.println(s"You drew the exploding card! Game Over! Play again? (restart/exit)")
+          if (gameover) {
+            outputStream.println("You need restart the game!")
           } else {
-            outputStream.println(s"You haven't exploded yet, keep going! Draw another card: ${cards.size} cards left")
+            val cardDrawn = cards.dequeue()
+            if (cardDrawn.isInstanceOf[ExplodingCard]) {
+              outputStream.println(s"You drew the exploding card! Game Over! Play again? (restart/exit)")
+              gameover = true
+            } else {
+              outputStream.println(s"You haven't exploded yet, keep going! Draw another card: ${cards.size} cards left")
+            }
           }
         case "restart" =>
           cards = shuffleCards()
@@ -48,6 +54,7 @@ class ExplodingGame(player: Player) {
     val explodingCard = new ExplodingCard()
 
     mutableBlankCards.update(randomNumber, explodingCard)
+    gameover = false
     mutableBlankCards
   }
 

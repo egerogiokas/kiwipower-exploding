@@ -52,7 +52,22 @@ class ExplodingGameTest {
     assertThat(explodingGame.cards.size, equalTo(46))
     assertThat(outputs, containsString("Cards have been shuffled, please draw a card Player 1\r\n"))
     assertThat(outputs, containsString("Quitting game!\r\n"))
+  }
 
+  @Test
+  def `don't allow to keep drawing after gameover`(): Unit = {
+    val explodingGame = new ExplodingGame(new Player("Player 1"))
+
+    //draw 48 times to trigger a gameover and the error message
+    val inputStream = new ByteArrayInputStream((0 to 47).map(_ => "draw").mkString("\n").getBytes())
+    val outputStream = new ByteArrayOutputStream()
+
+    explodingGame.start(inputStream, new PrintStream(outputStream))
+
+    val outputs = new String(outputStream.toByteArray)
+
+    assertThat(outputs, containsString("You drew the exploding card! Game Over! Play again? (restart/exit)\r\n"))
+    assertThat(outputs, containsString("You need restart the game!\r\n"))
   }
 
 }
