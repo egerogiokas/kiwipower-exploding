@@ -1,3 +1,6 @@
+### To run
+If you open in Intellij, run GameLauncher, which contains the main class.
+You can also run "gradlew run" to run the application.
 
 ### Assumption of one player
 I made the assumption that, for now, I'll only deal with 1 player.
