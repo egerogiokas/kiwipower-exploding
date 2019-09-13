@@ -9,6 +9,7 @@ version '1.0-SNAPSHOT'
 
 apply plugin: 'scala'
 apply plugin: 'idea'
+apply plugin: 'application'
 
 repositories {
     mavenCentral()
@@ -27,4 +28,12 @@ compileScala {
 
 compileTestScala {
     targetCompatibility = "1.8"
+}
+
+run {
+    standardInput = System.in
+}
+
+application {
+    mainClassName = 'com.kiwipower.exploding.GameLauncher'
 }
