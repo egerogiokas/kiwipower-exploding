@@ -15,6 +15,8 @@ class ExplodingGame(
                    ) {
 
   var gameover = false
+  val MAX_NUMBER_OF_CARDS_IN_DECK = 49
+  val scanner = new Scanner(inputStream)
 
   def start() {
     if (cards.isEmpty) {
@@ -24,7 +26,6 @@ class ExplodingGame(
     outputStream.println("to draw a card, enter \"draw\"")
     outputStream.println(s"${player.name} please draw a card:")
 
-    val scanner = new Scanner(inputStream)
 
     while (scanner.hasNext()) {
       scanner.next() match {
@@ -71,10 +72,10 @@ class ExplodingGame(
   }
 
   def initialiseCards(): Unit = {
-    val blankCards = (0 to 48).map(_ => new BlankCard().asInstanceOf[Card])
+    val blankCards = (0 until MAX_NUMBER_OF_CARDS_IN_DECK).map(_ => new BlankCard().asInstanceOf[Card])
     val mutableBlankCards: mutable.Queue[Card] = mutable.Queue(blankCards: _*)
 
-    val explodingCardLocation = Math.floor(Math.random() * 46).toInt
+    val explodingCardLocation = Math.floor(Math.random() * MAX_NUMBER_OF_CARDS_IN_DECK).toInt
 
     mutableBlankCards.update(explodingCardLocation, new ExplodingCard())
 
@@ -88,7 +89,7 @@ class ExplodingGame(
   }
 
   def getRandomLocation(location: List[Int]): Int = {
-    var newRandomLocation: Int = Math.floor(Math.random() * 46).toInt
+    var newRandomLocation: Int = Math.floor(Math.random() * (MAX_NUMBER_OF_CARDS_IN_DECK)).toInt
     if (location.contains((i: Int) => i.equals(newRandomLocation))) {
       newRandomLocation = getRandomLocation(location)
     }

@@ -15,7 +15,7 @@ class ExplodingGameTest {
   @Test
   def `when starting the game, creates cards with 1 exploding card`() {
     val player = Player("Player 1")
-    val explodingGame = new ExplodingGame(player)
+    val explodingGame = new ExplodingGame(player, new ByteArrayInputStream("exit".getBytes()))
 
     explodingGame.start()
 
@@ -55,7 +55,6 @@ class ExplodingGameTest {
     val outputStream = new ByteArrayOutputStream()
 
     val explodingGame = new ExplodingGame(new Player("Player 1"), inputStream, new PrintStream(outputStream))
-
 
     explodingGame.start()
 
